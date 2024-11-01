@@ -266,9 +266,11 @@ Get piggy dumping a log on the terminal or to a .log file, useful for debugging 
 ## Interface tweaks
 
 - **HIDELGPTPREFIX**: Allows to hide `lgpt_` prefixes from project creation dialog and song screen.
+- **SEPARATOR**: ability to set custom separator for all view titles.
 
 ```
 <CONFIG>
   <HIDELGPTPREFIX value="YES"/>
+  <SEPARATOR value=": "/>
 </CONFIG>
 ```

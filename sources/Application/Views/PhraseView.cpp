@@ -1108,7 +1108,11 @@ void PhraseView::DrawView() {
     char title[20];
 
     SetColor(CD_NORMAL);
-    sprintf(title, "Phrase %2.2x", viewData_->currentPhrase_);
+
+    const char* separator = Config::GetInstance()->GetValue("SEPARATOR");
+    if (!separator) { separator = ": "; }
+
+    sprintf(title, "Phrase%s%2.2x", separator, viewData_->currentPhrase_);
     DrawString(pos._x, pos._y, title, props);
 
     // Compute song grid location
