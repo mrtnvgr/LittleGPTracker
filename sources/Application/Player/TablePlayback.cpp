@@ -113,13 +113,13 @@ bool TablePlayback::ProcessLocalCommand(int row,FourCC *commandList,ushort *para
 		{
 			int count = param>>8;
 
-			if (hopCount_[position_[row]][row]==0) {
-				hopCount_[position_[row]][row]=count;
+			if (hopCount_[position_[row]][row] == 0) {
+				hopCount_[position_[row]][row] = count;
 			} else {
 				hopCount_[position_[row]][row]--;
 
 				if (count == 0) {
-					std::byte new_position = param&0xF;
+					char new_position = param&0xF;
 					if (command == I_CMD_HOPF) { new_position += position_[row]; }
 					position_[row] = new_position;
 				} else {
