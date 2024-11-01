@@ -1,6 +1,6 @@
 # LGPT Configurations
 
-> *Originally seen as `config.xml`+`mapping.xml` pages from LGPT wiki years ago,*  
+> *Originally seen as `config.xml`+`mapping.xml` pages from LGPT wiki years ago,*
 > *reuploaded here since the wiki is down, and added some touchups:*
 
 ## **−Table of Contents**
@@ -101,13 +101,13 @@ Be careful as large values take a lot of juice and interfere with sound playback
 LittleGPTracker uses 4 colours to do all the drawing. If you want, you can redefine them using the following parameters:
 
 -   `BACKGROUND`: color of the background
-    
+
 -   `FOREGROUND`: color of the foreground
 
 -   `BORDER`: color of the border in the start screen / dialogs
-    
+
 -   `HICOLOR1`: row count in song screen
-    
+
 -   `HICOLOR2`: inverted color
 
 -   `CURSORCOLOR`:  Cursor color
@@ -123,7 +123,7 @@ LittleGPTracker uses 4 colours to do all the drawing. If you want, you can redef
 -   `ALTROWNUMBER`: how many rows before alternating between ROWCOLOR1/2
 
 -   `MAJORBEAT`: color of "--" at row 00,04,08,0c in phrase screen
-    
+
 
 All colors are defined by a set of hexadecimal triplet for RGB. Here's an example:
 
@@ -143,23 +143,23 @@ You can generate this config values [in an awesome web app](https://web.archive.
 The buttons (GP2X/PSP) or keys (WIN/DEB/OSX) arrangment that is predefined can be totally reconfigured through the following parameters:
 
 -   `KEY\_A`: defines mapping for A
-    
+
 -   `KEY\_B`: defines mapping for B
-    
+
 -   `KEY\_LEFT`: defines mapping for left arrow
-    
+
 -   `KEY\_RIGHT`: defines mapping for right arrow
-    
+
 -   `KEY\_UP`: defines mapping for up arrow
-    
+
 -   `KEY\_DOWN`: defines mapping for down arrow
-    
+
 -   `KEY\_LSHOULDER` : defines mapping for left shoulder
-    
+
 -   `KEY\_RSHOULDER` : defines mapping for right shoulder
-    
+
 -   `KEY\_START`: defines mapping for start
-    
+
 
 To connect the button to a keyboard key, it's pretty easy:
 simply put the key name as defined by the
@@ -205,9 +205,9 @@ And if you want to configure a USB joypad, you'll have to use the
 You can tweak the timing used to repeat the arrows keys and other.
 
 -   `KEYDELAY` is the time *(in msecs)* you have to keep the key down before it starts repeating.
-    
+
 -   `KEYREPEAT` is the time in milliseconds between each repeat
-    
+
 
 ```
 <CONFIG>
@@ -222,11 +222,11 @@ You can tweak two different path:
 
 -   ROOTFOLDER: defines where you want the root of all your project to be.
 This can be useful if you don't want to follow the original installation structure.
-    
+
 -   SAMPLELIB: defines where sample library is located.
 For example, you may want to place the samplelibrary path at the root of your projects so you can grab samples from existing songs too.
 In that case, you can use an alias called “root:” representing the folder defined by ROOTFOLDER.
-    
+
 
 ```
 <CONFIG>
@@ -268,20 +268,20 @@ They are currenly _mostly_ used for **W32** but might extend in the future to ot
 
 -   **AUDIOAPI**: Allows to select the class of drivers to use.
 Currently can be set to ASIO to enable asio output instead of direct sound.
-    
+
 -   **AUDIODRIVER**: Allows to specify which driver to open.
 It takes the first drvier whose name matches the beginning of the string.
 For example, to force using a realtek soundcard instead of the default one, you can just specify “Real”
-    
+
 -   **AUDIOBUFFERSIZE**: Allows to tweak the default buffersize used for the audio. If the piggy glitches, increase this value.
-    
+
 -   **AUDIOPREBUFFERCOUNT**: Even if the computer has the ability to run the piggy full screen,
 some sound hardware needs nearly instant reply for the couple of first buffers.
 
 If you have upped the AUDIO**BUFFER**SIZE but still get glitches, try putting it back to something decent (like 512)
 and define AUDIO_PRE_**BUFFER**COUNT to be 2,3,… that way, a set of blank buffer will be queued,
 ready for the soundcard to grab, before the sequencer is actually kicked in.
-    
+
 
 ```
 <CONFIG>
@@ -316,6 +316,16 @@ useful for debugging crashes or making a mapping.xml for your usb pad:
 ```
 <CONFIG>
   <DUMPEVENT value='YES'/>
+</CONFIG>
+```
+
+## Interface tweaks
+
+- **HIDELGPTPREFIX**: Allows to hide `lgpt_` prefixes from project creation dialog and song screen.
+
+```
+<CONFIG>
+  <HIDELGPTPREFIX value="YES"/>
 </CONFIG>
 ```
 
