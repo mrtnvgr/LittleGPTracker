@@ -172,12 +172,7 @@ std::string NewProjectDialog::GetName() {
 			break;
 		}
 	}
-	std::string name = "";
-
-	const char *hideLGPTPrefixValue = Config::GetInstance()->GetValue("HIDELGPTPREFIX");
-	bool hideLGPTPrefix = hideLGPTPrefixValue && (!strcmp(hideLGPTPrefixValue, "YES"));
-	if (!hideLGPTPrefix) { name += "lgpt_"; }
-
+	std::string name = "lgpt_";
 	name += name_;
 	return name;
 }
