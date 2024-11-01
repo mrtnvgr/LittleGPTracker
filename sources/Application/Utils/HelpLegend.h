@@ -37,6 +37,10 @@ static inline std::string* getHelpLegend(FourCC command) {
 			result[1].assign("hop to bb");
 			result[2].assign("aa times");
 			break;
+		case I_CMD_HOPF:
+			result[0].assign("HOP Forward:--bb");
+			result[1].assign("hop forward bb notes");
+			break;
 		case I_CMD_LEGA:
 			result[0].assign("LEGAto: slide from");
 			result[1].assign("previous note to pitch");

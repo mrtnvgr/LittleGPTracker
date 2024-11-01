@@ -11,6 +11,7 @@
 #define I_CMD_VOLM MAKE_FOURCC('V','O','L','M')
 #define I_CMD_PTCH MAKE_FOURCC('P','T','C','H')
 #define I_CMD_HOP  MAKE_FOURCC('H','O','P',' ')
+#define I_CMD_HOPF MAKE_FOURCC('H','O','P','F')
 #define I_CMD_LEGA MAKE_FOURCC('L','E','G','A')
 #define I_CMD_RTRG MAKE_FOURCC('R','T','R','G')
 #define I_CMD_TMPO MAKE_FOURCC('T','M','P','O')

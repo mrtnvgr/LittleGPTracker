@@ -77,20 +77,20 @@ bool Player::IsChannelMuted(int channel) {
 } ;
 
 void Player::Start(PlayMode mode,bool forceSongMode) {
-    
+
 	mixer_->Lock() ;
 
 	lastBeatCount_=0 ;
-    
+
 	// Get start time for clock
-	
+
 	System *system=System::GetInstance() ;
 	now_=startClock_=system->GetClock() ;
-  
+
   // Sets play mode.
   // DO I need playMode_ in view data ?
-  // Seems like duplicate with mode_ 
- 
+  // Seems like duplicate with mode_
+
 	viewData_->playMode_=(forceSongMode?PM_SONG:mode) ;
 
   // Always set position, allows for playing song with chain offset
@@ -107,7 +107,7 @@ void Player::Start(PlayMode mode,bool forceSongMode) {
 		TablePlayback &tpb=TablePlayback::GetTablePlayback(i) ;
 		tpb.Stop();
   }
-    
+
 	// Tell the instruments we're starting
 
 	project_->GetInstrumentBank()->OnStart() ;
@@ -120,7 +120,7 @@ void Player::Start(PlayMode mode,bool forceSongMode) {
 
 	firstPlayCycle_=true ;
 	mode_=viewData_->playMode_ ;
-	
+
 	mixer_->OnPlayerStart() ;
 
 	MidiService *ms=MidiService::GetInstance() ;
@@ -137,7 +137,7 @@ void Player::Start(PlayMode mode,bool forceSongMode) {
       }
     }
     break ;
-      
+
 		case PM_LIVE:
     {
       for (int i=0;i<8;i++)
@@ -153,7 +153,7 @@ void Player::Start(PlayMode mode,bool forceSongMode) {
       }
     }
     break ;
-      
+
 		case PM_CHAIN:
 		case PM_PHRASE:
     {
@@ -175,7 +175,7 @@ void Player::Start(PlayMode mode,bool forceSongMode) {
 			NInvalid ;
 			break ;
 	}
- 
+
   ProcessCommands() ;
 
 	startTime_ = mixer_->GetAudioOut()->GetStreamTime() ;
@@ -267,7 +267,7 @@ char *Player::GetLiveIndicator(int channel) {
 				break ;
 			case QM_NONE:
 				break ;
-		} 
+		}
 	}
 	return " " ;
 } ;
@@ -362,9 +362,9 @@ void Player::OnSongStartButton(unsigned int from,unsigned int to,bool requestSto
 						}
   					}
 				} ;
-				
+
 				Start(PM_LIVE,false) ;
-				
+
 			} else { // Player already running
 
 				// Queue all chain in the given selection
@@ -372,7 +372,7 @@ void Player::OnSongStartButton(unsigned int from,unsigned int to,bool requestSto
 				for (unsigned int i=from;i<to+1;i++) {
 
 					QueueingMode mode=QM_NONE ;
-				
+
 					uchar row=songPos ;
 
 					if (!requestStop) {
@@ -521,7 +521,7 @@ void Player::Update(Observable &o,I_ObservableData *d) {
 			if (triggerLiveChains_) {
 				triggerLiveChains() ;
 			} ;
-		} 
+		}
 
 		for (int i=0;i<SONG_CHANNEL_COUNT;i++) {
 			if (timeToStart_[i]>0){
@@ -534,7 +534,7 @@ void Player::Update(Observable &o,I_ObservableData *d) {
 		// Process commands in current phrase
 	   if (viewData_->playMode_ != PM_AUDITION)
 			ProcessCommands() ;
-		
+
 	   // Initialise retrigger table
 	   int instrRetrigger[SONG_CHANNEL_COUNT] ;
 	   memset(instrRetrigger,-1,SONG_CHANNEL_COUNT*sizeof(int)) ;
@@ -554,7 +554,7 @@ void Player::Update(Observable &o,I_ObservableData *d) {
 		}
 
 	  // Do we need to kill a voice ?
-	  
+
 		if (sync->TableSlice()) {
 			for (int i=0;i<SONG_CHANNEL_COUNT;i++) {
 				bool stopped=false ;
@@ -562,7 +562,7 @@ void Player::Update(Observable &o,I_ObservableData *d) {
 					if (--timeToLive_[i]==0) {
                 		mixer_->StopInstrument(i) ;
 						stopped=true ;
-					} 
+					}
 				}
 				if (!stopped) {
 					if (instrRetrigger[i]>=0) {
@@ -577,7 +577,7 @@ void Player::Update(Observable &o,I_ObservableData *d) {
 							mixer_->StartInstrument(i,instr,note,false) ;
 						} ;
 					} ;
-				} ;		
+				} ;
 			}
 		}
 
@@ -599,7 +599,7 @@ void Player::Update(Observable &o,I_ObservableData *d) {
 	Check if there's any command to trigger at current playing
 	position for all channels
  ************************************************************/
- 
+
 void Player::ProcessCommands() {
 
     // loop on all channels
@@ -618,10 +618,10 @@ void Player::ProcessCommands() {
 					int pos=viewData_->phrasePlayPos_[i] ;
 					FourCC cc=viewData_->song_->phrase_->cmd1_[phrase*16+pos] ;
 					ushort param=viewData_->song_->phrase_->param1_[phrase*16+pos] ;
-					
+
 					// if there's any command to trigger, first pass it on the player
 					// then pass it on to the instrument
-					
+
 					if (cc!=I_CMD_NONE) {
 						if (!ProcessChannelCommand(i,cc,param)) {
 							I_Instrument *instrument=mixer_->GetInstrument(i) ;
@@ -670,8 +670,8 @@ bool Player::ProcessChannelCommand(int channel,FourCC cmd,ushort param) {
                 Variable*v=project_->FindVariable(VAR_TEMPO) ;
                 v->SetInt(param) ;
                 SyncMaster *sync=SyncMaster::GetInstance() ;
- 	            sync->SetTempo(project_->GetTempo()) ;  
-            }   
+ 	            sync->SetTempo(project_->GetTempo()) ;
+            }
             return true ;
             break ;
 		case I_CMD_TABL:
@@ -707,7 +707,7 @@ bool Player::ProcessChannelCommand(int channel,FourCC cmd,ushort param) {
             break;
           case SM_LIVE:
 //            QueueChannel(channel,QM_CHAINSTOP,0) ;
- 
+
             mixer_->StopChannel(channel) ;
             liveQueueingMode_[channel]=QM_NONE ;
             break;
@@ -728,7 +728,7 @@ bool Player::ProcessChannelCommand(int channel,FourCC cmd,ushort param) {
  ********************************************************/
 
 void Player::triggerLiveChains() {
- 
+
    if (mode_==PM_LIVE) {
       for (int i=0;i<SONG_CHANNEL_COUNT;i++) {
          if (!(mixer_->IsChannelPlaying(i))&&
@@ -742,7 +742,7 @@ void Player::triggerLiveChains() {
                     liveQueueingMode_[i]=QM_NONE ;
          }
       }
-    } 
+    }
 } ;
 
 /********************************************************
@@ -773,7 +773,7 @@ void Player::updateChainPos(int pos,int channel,int hop) {
 		if (*data==0xFF) { // This could happen if starting in song mode on a row
 			               // where a chain contains no phrase
 			mixer_->StopChannel(channel) ;
-		} 
+		}
 	} else {
 		viewData_->currentPlayPhrase_[channel]=0xFF;
 		mixer_->StopChannel(channel) ;
@@ -830,7 +830,7 @@ void Player::playCursorPosition(int channel) {
 		if (note!=0xFF) {
 
 			// Stop instrument if playing
-			
+
             mixer_->StopInstrument(channel) ;
 			InstrumentBank *bank=viewData_->project_->GetInstrumentBank() ;
 
@@ -845,7 +845,7 @@ void Player::playCursorPosition(int channel) {
 			}  else {
 	            instrument=mixer_->GetLastInstrument(channel) ;
 			}
-			
+
 			if (instrument==0) {
 					instrument=bank->GetInstrument(0) ;
 			}
@@ -866,10 +866,10 @@ void Player::playCursorPosition(int channel) {
 				if (note<128) {
 					mixer_->StartInstrument(channel,instrument,note,newInstrument) ;
 					int instrTable=instrument->GetTable() ;
-	
+
 					// If an instrument number has been specified && instrument has table,
 					// we trigger the table.
-	
+
 					if ((instrTable!=VAR_OFF)&&(newInstrument)) {
 						Table &table=th->GetTable(instrTable) ;
 						bool automated=instrument->GetTableAutomation() ;
@@ -880,7 +880,7 @@ void Player::playCursorPosition(int channel) {
 							tpb.Stop() ;
 						}
 					}
-				} 
+				}
 				else {
 					Trace::Error("Note outside range: %02x", (unsigned int) note) ;
 				}
@@ -897,22 +897,26 @@ void Player::playCursorPosition(int channel) {
 				}
 			}
 		}
-    } 
+    }
 }
 
 
-int Player::getChannelHop(int channel,int pos) {
+int Player::getChannelHop(int channel, int pos) {
+	int phrase = viewData_->currentPlayPhrase_[channel];
 
-  int phrase=viewData_->currentPlayPhrase_[channel] ;
-	FourCC cc=viewData_->song_->phrase_->cmd1_[phrase*16+pos] ;
-  if (cc==I_CMD_HOP) {
-      return (viewData_->song_->phrase_->param1_[phrase*16+pos])&0xF ;
-  }
-	cc=viewData_->song_->phrase_->cmd2_[phrase*16+pos] ;
-  if (cc==I_CMD_HOP) {
-      return (viewData_->song_->phrase_->param2_[phrase*16+pos])&0xF ;
-  }
-  return -1 ;
+	FourCC cc = viewData_->song_->phrase_->cmd1_[phrase*16+pos];
+	if (cc == I_CMD_HOP || cc == I_CMD_HOPF) {
+		if (cc == I_CMD_HOPF) { pos = -pos; }
+		return (viewData_->song_->phrase_->param1_[phrase*16+pos])&0xF;
+	}
+
+	cc = viewData_->song_->phrase_->cmd2_[phrase*16+pos];
+	if (cc == I_CMD_HOP || cc == I_CMD_HOPF) {
+		if (cc == I_CMD_HOPF) { pos = -pos; }
+		return (viewData_->song_->phrase_->param2_[phrase*16+pos])&0xF;
+	}
+
+	return -1;
 }
 
 /********************************************************
@@ -921,15 +925,15 @@ int Player::getChannelHop(int channel,int pos) {
 	playing channels.
  ********************************************************/
 
-void Player::moveToNextStep() 
+void Player::moveToNextStep()
 {
   // we'll need to know if any channel is playing
-  
+
   bool playingChannel=false ;
 
 	for (int i=0;i<SONG_CHANNEL_COUNT;i++)
   {
-		bool liveTriggered = false ; 
+		bool liveTriggered = false ;
 
     switch (liveQueueingMode_[i])
     {
@@ -951,11 +955,11 @@ void Player::moveToNextStep()
     }
 
     Groove *gs=Groove::GetInstance() ;
-    
+
 	  if (mixer_->IsChannelPlaying(i)&&!liveTriggered)
     {
       playingChannel=true ;
-      
+
       if (gs->TriggerChannel(i))
       { // If groove says it is time to play
         if (viewData_->currentPlayPhrase_[i]!=0xFF)
@@ -1042,18 +1046,18 @@ void Player::moveToNextPhrase(int channel,int hop) {
 
 	int chain=viewData_->currentPlayChain_[channel] ;
 	int pos=(viewData_->chainPlayPos_[channel])+1 ;
-	
+
 	// Look if there' any data at current position
 	// which means we continue in the current chain
-	
+
 	bool canContinue=(pos<16) ;
 	if (canContinue) {
 		unsigned char *data=viewData_->song_->chain_->data_+(16*chain+pos) ;
 		canContinue=(*data!=0xFF) ;
 	}
-	
+
 	// If so, we trigger it. Otherwise, we go to the next phrase
-	
+
 	if (canContinue) {
 		updateChainPos(pos,channel,hop) ;
 	} else { // Should move to next chain
@@ -1074,7 +1078,7 @@ void Player::moveToNextPhrase(int channel,int hop) {
 
 void Player::moveToNextChain(int channel,int hop) {
 
-// if there's unplaying channels queue they should be started 
+// if there's unplaying channels queue they should be started
 // once all position have been updated
 
     triggerLiveChains_=true ;
@@ -1095,7 +1099,7 @@ void Player::moveToNextChain(int channel,int hop) {
               case QM_PHRASESTART:
 
                   if (findPlayable(&(liveQueuePosition_[channel]),channel,liveQueueChainPosition_[channel])) {
-                     nextPos=liveQueuePosition_[channel] ; 
+                     nextPos=liveQueuePosition_[channel] ;
                      searchNext=false ;
                      liveQueueingMode_[channel]=QM_NONE ;
 				     chainPosition=liveQueueChainPosition_[channel] ;
@@ -1114,7 +1118,7 @@ void Player::moveToNextChain(int channel,int hop) {
                    break ;
        }
     }
-    
+
 // if live mode didn't queue anything, we find the next to play
 
     if (searchNext) {
@@ -1136,14 +1140,14 @@ void Player::moveToNextChain(int channel,int hop) {
                     if (viewData_->song_->chain_->data_[(*data)*16]==0xFF) {
                         break ;
                     }
-                } 
+                }
 			    if (pos!=0) data-=8 ;
 			    pos-- ;
            } ;
 		   pos++ ;
      	}
      	nextPos=pos ;
-    } 
+    }
     // Do a last check in case we had only one chain and it go destroyed
 
     if (isPlayable(nextPos,channel,chainPosition)) {

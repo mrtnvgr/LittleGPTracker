@@ -13,6 +13,7 @@ static FourCC _all[]= {
 	I_CMD_FRES,
 	I_CMD_GROV,
 	I_CMD_HOP,
+	I_CMD_HOPF,
 	I_CMD_IRTG,
 	I_CMD_KILL,
 	I_CMD_LEGA,
@@ -97,6 +98,6 @@ FourCC CommandList::GetPrevAlpha(FourCC current) {
 	} ;
 	if (tReturn!=0xFFFFFFFF) {
 		return tReturn ;
-	} 
+	}
 	return current ;
 } ;

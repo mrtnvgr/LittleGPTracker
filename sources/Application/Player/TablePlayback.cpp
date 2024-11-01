@@ -109,21 +109,28 @@ bool TablePlayback::ProcessLocalCommand(int row,FourCC *commandList,ushort *para
 
 	switch(command) {
 		case I_CMD_HOP:
+		case I_CMD_HOPF:
 		{
-			int count=param>>8  ;
+			int count = param>>8;
+
 			if (hopCount_[position_[row]][row]==0) {
-				hopCount_[position_[row]][row]=count ;
+				hopCount_[position_[row]][row]=count;
 			} else {
-				hopCount_[position_[row]][row]-- ;
-			};
-			if ((hopCount_[position_[row]][row]!=0)||(count==0)) {
-				position_[row]=param&0xF ;
-				hopped=true ;
-			} else {
-				position_[row]=(position_[row]+1)%16 ;
-				hopped=true ;
-			};
-			break ;
+				hopCount_[position_[row]][row]--;
+
+				if (count == 0) {
+					std::byte new_position = param&0xF;
+					if (command == I_CMD_HOPF) { new_position += position_[row]; }
+					position_[row] = new_position;
+				} else {
+					// TODO: ???
+					position_[row] = (position_[row]+1)%16;
+				}
+
+				hopped = true;
+			}
+
+			break;
 		}
 	}
 
@@ -153,7 +160,7 @@ bool TablePlayback::ProcessLocalCommand(int row,FourCC *commandList,ushort *para
 	return hopped ;
 }
 
-void TablePlayback::ProcessStep(TablePlayerChange &tpc) {	
+void TablePlayback::ProcessStep(TablePlayerChange &tpc) {
 
 	Groove *gs=Groove::GetInstance();
 
@@ -193,13 +200,18 @@ void TablePlayback::ProcessStep(TablePlayerChange &tpc) {
 
 			if (gs->UpdateGroove(groove_,true)) {
 
-				if ((table_->cmd1_[position_[0]]!=I_CMD_HOP)||(!hopped_[0])) {
+				FourCC ccmd1 = table_->cmd1_[position_[0]];
+				if ((ccmd1 != I_CMD_HOP) || (ccmd1 != I_CMD_HOPF) || (!hopped_[0])) {
 					position_[0]=(position_[0]+1)%16 ;
 				}
-				if ((table_->cmd2_[position_[1]]!=I_CMD_HOP)||(!hopped_[1])) {
+
+				FourCC ccmd2 = table_->cmd2_[position_[1]];
+				if ((ccmd2 != I_CMD_HOP) || (ccmd2 != I_CMD_HOPF) || (!hopped_[1])) {
 					position_[1]=(position_[1]+1)%16 ;
 				}
-				if ((table_->cmd3_[position_[2]]!=I_CMD_HOP)||(!hopped_[2])) {
+
+				FourCC ccmd3 = table_->cmd3_[position_[2]];
+				if ((ccmd3 != I_CMD_HOP) || (ccmd3 != I_CMD_HOPF) || (!hopped_[2])) {
 					position_[2]=(position_[2]+1)%16 ;
 				}
 
