@@ -911,8 +911,18 @@ void SongView::DrawView() {
     std::ostringstream os;
 
     os << ((player->GetSequencerMode() == SM_SONG) ? "Song" : "Live");
-    os << " - ";
-    os << songname_;
+
+    os << ": ";
+
+    const char *hideLGPTPrefixValue = Config::GetInstance()->GetValue("HIDELGPTPREFIX");
+	bool hideLGPTPrefix = hideLGPTPrefixValue && (!strcmp(hideLGPTPrefixValue, "YES"));
+
+    if (hideLGPTPrefix && (songname_.substr(0, 5) == "lgpt_")) {
+        os << songname_.substr(5);
+    } else {
+        os << songname_;
+    }
+
     std::string buffer(os.str());
 
     DrawString(pos._x, pos._y, buffer.c_str(), props);
@@ -972,6 +982,8 @@ void SongView::DrawView() {
                 SetColor(CD_SONGVIEWFE);
             } else if (d == 0x00) {
                 SetColor(CD_SONGVIEW00);
+            } else if (d == 0xFF) {
+                SetColor(CD_BLANKSPACE);
             } else {
                 SetColor(CD_NORMAL);
             }

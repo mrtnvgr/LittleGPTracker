@@ -1106,7 +1106,6 @@ void PhraseView::DrawView() {
     // Draw title
 
     char title[20];
-
     SetColor(CD_NORMAL);
     sprintf(title, "Phrase %2.2x", viewData_->currentPhrase_);
     DrawString(pos._x, pos._y, title, props);

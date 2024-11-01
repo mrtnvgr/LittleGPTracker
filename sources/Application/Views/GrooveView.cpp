@@ -9,7 +9,7 @@ GrooveView::GrooveView(GUIWindow &w,ViewData *viewData):View(w,viewData) {
 }
 
 GrooveView::~GrooveView() {
-} 
+}
 
 void GrooveView::updateCursor(int dir) {
 	position_+=dir ;
@@ -25,7 +25,7 @@ void GrooveView::updateCursorValue(int val,bool sync) {
 	if (val<1) val=1 ;
 	if (val>0xF) val=0xF ;
 	grooveData[position_]=val ;
-	isDirty_=true; 
+	isDirty_=true;
 } ;
 
 void GrooveView::warpGroove(int dir) {
@@ -53,15 +53,15 @@ void GrooveView::clearCursorValue() {
 	unsigned char *grooveData=Groove::GetInstance()->GetGrooveData(viewData_->currentGroove_) ;
 	grooveData[position_]=NO_GROOVE_DATA ;
 	isDirty_=true ;
-}	
+}
 
 void GrooveView::ProcessButtonMask(unsigned short mask,bool pressed) {
 
 	if (!pressed) return ;
-	
+
 	Player *player=Player::GetInstance() ;
 
-	if (mask&EPBM_B) {         
+	if (mask&EPBM_B) {
 			if (mask&EPBM_LEFT) {
 				warpGroove(-1) ;
 			}
@@ -80,7 +80,7 @@ void GrooveView::ProcessButtonMask(unsigned short mask,bool pressed) {
 	} else {
 
 	  // A modifier
-	  if (mask&EPBM_A) {         
+	  if (mask&EPBM_A) {
 			if (mask&EPBM_LEFT) {
 				updateCursorValue(-1) ;
 			}
@@ -108,7 +108,7 @@ void GrooveView::ProcessButtonMask(unsigned short mask,bool pressed) {
 				}
 				if (mask&EPBM_START) {
 					player->OnStartButton(PM_PHRASE,viewData_->songX_,true,viewData_->chainRow_) ;
-    			}			
+    			}
 
 	    	} else {
                 // No modifier
@@ -118,8 +118,8 @@ void GrooveView::ProcessButtonMask(unsigned short mask,bool pressed) {
 					player->OnStartButton(PM_PHRASE,viewData_->songX_,false,viewData_->chainRow_) ;
     			}
 		    }
-	  } 
-	    
+	  }
+
 	}
 } ;
 
@@ -135,14 +135,13 @@ void GrooveView::DrawView() {
 	char title[40] ;
 
 	SetColor(CD_NORMAL) ;
-
-	sprintf(title,"Groove: %2.2x",viewData_->currentGroove_) ;
+	sprintf(title,"Groove %2.2x", viewData_->currentGroove_) ;
 	DrawString(pos._x,pos._y,title,props) ;
 
 // Compute song grid location
 
 	GUIPoint anchor=GetAnchor() ;
-	
+
 // Display row numbers
 
 	char buffer[6] ;
@@ -170,7 +169,7 @@ void GrooveView::DrawView() {
 		} else {
 			strcpy(buffer,"--") ;
 		} ;
-		props.invert_=(j==position_) ; 
+		props.invert_=(j==position_) ;
 		DrawString(pos._x,pos._y,buffer,props) ;
 		pos._y++ ;
 	}
@@ -188,7 +187,7 @@ void GrooveView::OnPlayerUpdate(PlayerEventType ,unsigned int tick) {
 	pos._x=anchor._x-1 ;
 	pos._y=anchor._y+lastPosition_ ;
 	DrawString(pos._x,pos._y," ",props) ;
-		
+
 	Groove *gr=Groove::GetInstance() ;
 	// Get current channel
 	int channel=viewData_->songX_ ;

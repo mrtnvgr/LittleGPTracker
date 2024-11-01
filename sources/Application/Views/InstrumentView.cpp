@@ -46,7 +46,7 @@ void InstrumentView::onInstrumentChange() {
 	T_SimpleList<UIField>::Empty() ;
 
 	InstrumentType it=getInstrumentType() ;
- 
+
  	switch (it) {
 		case IT_MIDI:
 			fillMidiParameters() ;
@@ -77,7 +77,7 @@ void InstrumentView::fillSampleParameters() {
 	I_Instrument *instr=bank->GetInstrument(i) ;
 	SampleInstrument *instrument=(SampleInstrument *)instr  ;
 	GUIPoint position=GetAnchor() ;
-	
+
 //	position._y+=View::fieldSpaceHeight_;
 	Variable *v=instrument->FindVariable(SIP_SAMPLE) ;
 	SamplePool *sp=SamplePool::GetInstance() ;
@@ -90,11 +90,11 @@ void InstrumentView::fillSampleParameters() {
     f1 = new UIIntVarField(position, *v, "%s", 0, 3, 1, 2);
     T_SimpleList<UIField>::Insert(f1) ;
 
-    position._x += 8;
+    position._x += 7;
     v = instrument->FindVariable(SIP_IR_WET);
     f1 = new UIIntVarField(position, *v, "wet:%d%%", 0, 100, 1, 10);
     T_SimpleList<UIField>::Insert(f1);
-    position._x += 8;
+    position._x += 9;
 
     v = instrument->FindVariable(SIP_IR_PAD);
     f1 = new UIIntVarField(position, *v, "pad:%dms", 0, 5000, 5, 100);
@@ -105,7 +105,7 @@ void InstrumentView::fillSampleParameters() {
     v=instrument->FindVariable(SIP_VOLUME) ;
 	f1=new UIIntVarField(position,*v,"volume: %d [%2.2X]",0,255,1,10) ;
 	T_SimpleList<UIField>::Insert(f1) ;
-	
+
 	position._y+=1 ;
 	v=instrument->FindVariable(SIP_PAN) ;
 	f1=new UIIntVarField(position,*v,"pan: %2.2X",0,0xFE,1,0x10) ;
@@ -188,7 +188,7 @@ void InstrumentView::fillSampleParameters() {
 	v=instrument->FindVariable(SIP_INTERPOLATION) ;
 	f1=new UIIntVarField(position,*v,"interpolation: %s",0,1,1,1) ;
 	T_SimpleList<UIField>::Insert(f1) ;
-	
+
 	position._y+=1 ;
 	v=instrument->FindVariable(SIP_LOOPMODE) ;
 	f1=new UIIntVarField(position,*v,"loop mode: %s",0,SILM_LAST-1,1,1) ;
@@ -347,11 +347,11 @@ void InstrumentView::ProcessButtonMask(unsigned short mask,bool pressed) {
 	}
 
 	FieldView::ProcessButtonMask(mask) ;
-	
+
 	Player *player=Player::GetInstance() ;
 	// B Modifier
 
-	if (mask&EPBM_B) {         
+	if (mask&EPBM_B) {
 		if (mask&EPBM_LEFT) warpToNext(-1) ;
 		if (mask&EPBM_RIGHT) warpToNext(+1);
 		if (mask&EPBM_DOWN) warpToNext(-16) ;
@@ -442,8 +442,8 @@ void InstrumentView::ProcessButtonMask(unsigned short mask,bool pressed) {
 					player->OnStartButton(PM_PHRASE,viewData_->songX_,false,viewData_->chainRow_) ;
     			}
 		    }
-	  } 
-	    
+	  }
+
 	}
 
 	UIIntVarField *field=(UIIntVarField *)GetFocus() ;
@@ -465,7 +465,7 @@ void InstrumentView::DrawView() {
 
     char title[20];
     SetColor(CD_NORMAL) ;
-	sprintf(title,"Instrument %2.2X",viewData_->currentInstrument_) ;
+	sprintf(title,"Instrument %2.2X", viewData_->currentInstrument_) ;
 	DrawString(pos._x,pos._y,title,props) ;
 
 // Draw fields
@@ -475,7 +475,7 @@ void InstrumentView::DrawView() {
 } ;
 
 void InstrumentView::OnFocus() {
-    onInstrumentChange() ; 
+    onInstrumentChange() ;
 }
 
 
