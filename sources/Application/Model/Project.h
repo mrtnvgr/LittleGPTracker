@@ -20,7 +20,7 @@
 
 #define PROJECT_NUMBER "1"
 #define PROJECT_RELEASE "4"
-#define BUILD_COUNT "3-bacon3"
+#define BUILD_COUNT "3-nightcoree"
 
 #define MAX_TAP 3
 
@@ -32,7 +32,7 @@ public:
 	void PurgeInstruments(bool removeFromDisk) ;
 
 	Song *song_ ;
- 
+
 	int GetMasterVolume() ;
 	bool Wrap() ;
 	void OnTempoTap();
@@ -47,7 +47,7 @@ public:
 
     // I_Observer
     virtual void Update(Observable &o,I_ObservableData *d);
- 
+
 	InstrumentBank* GetInstrumentBank() ;
 	virtual void SaveContent(TiXmlNode *node) ;
 	virtual void RestoreContent(TiXmlElement *element);
@@ -62,7 +62,7 @@ private:
 	int midiDeviceListSize_ ;
 	int tempoNudge_ ;
 	unsigned long lastTap_[MAX_TAP] ;
-	unsigned int tempoTapCount_ ; 
+	unsigned int tempoTapCount_ ;
 } ;
 
 #endif
