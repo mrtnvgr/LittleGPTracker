@@ -911,7 +911,11 @@ void SongView::DrawView() {
     std::ostringstream os;
 
     os << ((player->GetSequencerMode() == SM_SONG) ? "Song" : "Live");
-    os << " - ";
+
+    const char* separator = Config::GetInstance()->GetValue("SEPARATOR");
+    if (!separator) { separator = " - "; }
+    os << separator;
+
     os << songname_;
     std::string buffer(os.str());
 

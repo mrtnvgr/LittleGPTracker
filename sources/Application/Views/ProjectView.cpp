@@ -100,7 +100,7 @@ ProjectView::ProjectView(GUIWindow &w,ViewData *data):FieldView(w,data) {
 	project_=data->project_ ;
 
 	GUIPoint position=GetAnchor() ;
-	
+
 	Variable *v=project_->FindVariable(VAR_TEMPO) ;
 	UITempoField *f=new UITempoField(ACTION_TEMPO_CHANGED,position,*v,"tempo: %d [%2.2x]  ",60,400,1,10) ;
 	T_SimpleList<UIField>::Insert(f) ;
@@ -128,7 +128,7 @@ ProjectView::ProjectView(GUIWindow &w,ViewData *data):FieldView(w,data) {
     position._y+=2 ;
 	UIIntVarField *f2=new UIIntVarField(position,*v,"transpose: %3.2d",-48,48,0x1,0xC) ;
 	T_SimpleList<UIField>::Insert(f2) ;
-	
+
 	v = project_->FindVariable(VAR_SCALE);
 	// if scale name is not found, set the default chromatic scale
 	if (v->GetInt() < 0) {
@@ -205,7 +205,7 @@ void ProjectView::ProcessButtonMask(unsigned short mask,bool pressed) {
 } ;
 
 void ProjectView::DrawView() {
-   
+
 	Clear() ;
 
 	GUITextProperties props ;
@@ -214,7 +214,7 @@ void ProjectView::DrawView() {
 // Draw title
 
 	char projectString[80] ;
-	sprintf(projectString,"Project - Build %s.%s.%s",PROJECT_NUMBER,PROJECT_RELEASE,BUILD_COUNT) ;
+	sprintf(projectString,"Project (Build %s.%s.%s)",PROJECT_NUMBER,PROJECT_RELEASE,BUILD_COUNT) ;
 
 	SetColor(CD_NORMAL) ;
 	DrawString(pos._x,pos._y,projectString,props) ;

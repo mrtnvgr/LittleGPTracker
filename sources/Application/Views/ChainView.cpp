@@ -667,7 +667,11 @@ void ChainView::DrawView() {
 
     char title[20];
     SetColor(CD_NORMAL);
-    sprintf(title, "Chain %2.2x", viewData_->currentChain_);
+
+    const char* separator = Config::GetInstance()->GetValue("SEPARATOR");
+    if (!separator) { separator = ": "; }
+
+    sprintf(title, "Chain%s%2.2x", separator, viewData_->currentChain_);
     DrawString(pos._x, pos._y, title, props);
 
     // Compute song grid location
@@ -811,8 +815,8 @@ void ChainView::OnPlayerUpdate(PlayerEventType eventType, unsigned int tick) {
     pos._x += 200;
 /*
 	if (player->Clipped()) {
-           w_.DrawString("clip",pos,props); 
+           w_.DrawString("clip",pos,props);
     } else {
-           w_.DrawString("----",pos,props); 
+           w_.DrawString("----",pos,props);
     }
 */} ;
