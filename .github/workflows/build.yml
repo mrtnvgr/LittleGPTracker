@@ -41,7 +41,9 @@ jobs:
         with:
           tag: nightly
           token: ${{ secrets.GITHUB_TOKEN }}
-          files: projects/*.zip
+          files: |
+            projects/*.zip
+            projects/lgpt.x64
 
   build-psp:
     runs-on: ubuntu-latest
@@ -84,4 +86,6 @@ jobs:
         with:
           tag: nightly
           token: ${{ secrets.GITHUB_TOKEN }}
-          files: projects/*.zip
+          files: |
+            projects/*.zip
+            projects/buildPSP/EBOOT.PBP

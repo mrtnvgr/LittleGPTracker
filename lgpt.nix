@@ -26,7 +26,7 @@ in stdenv.mkDerivation {
 
   preBuild = "cd projects";
 
-  makeFlags = [ "PLATFORM=${platform}" ];
+  makeFlags = [ "-j8" "PLATFORM=${platform}" ];
 
   NIX_LDFLAGS = lib.optional stdenv.isDarwin "-framework Foundation";
 
