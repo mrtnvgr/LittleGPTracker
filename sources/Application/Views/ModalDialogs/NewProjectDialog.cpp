@@ -23,27 +23,19 @@ void NewProjectDialog::DrawView() {
 
 	SetColor(CD_NORMAL) ;
 
-	const char *hideLGPTPrefixValue = Config::GetInstance()->GetValue("HIDELGPTPREFIX");
-	bool hideLGPTPrefix = hideLGPTPrefixValue && (!strcmp(hideLGPTPrefixValue, "YES"));
-
 	// Draw string
 
-	int x;
-	if (hideLGPTPrefix) {
-		x = 0;
-	} else {
-		int len = MAX_NAME_LENGTH+5;
-		x = (DIALOG_WIDTH-len)/2;
-		DrawString(x,2,"lgpt_",props);
-		x += 5;
-	}
+    int len = MAX_NAME_LENGTH + 5;
+    int x = (DIALOG_WIDTH-len)/2;
+	DrawString(x,2,"lgpt_",props);
+	x += 5;
 
 	char buffer[2] ;
 	buffer[1]=0 ;
 	for (int i=0;i<MAX_NAME_LENGTH;i++) {
 		props.invert_=((i==currentChar_)&&(selected_==0)) ;
 		buffer[0]=name_[i] ;
-		DrawString(x+i,2,buffer,props) ;
+		DrawString(x+5+i,2,buffer,props) ;
 	}
 
 	// Draw buttons
@@ -60,7 +52,6 @@ void NewProjectDialog::DrawView() {
 		props.invert_=(selected_==i+1) ;
 		DrawString(x,4,text,props) ;
 	}
-
 };
 
 void NewProjectDialog::OnPlayerUpdate(PlayerEventType ,unsigned int currentTick) {
@@ -165,14 +156,14 @@ void NewProjectDialog::ProcessButtonMask(unsigned short mask,bool pressed) {
 
 
 std::string NewProjectDialog::GetName() {
-	for (int i=MAX_NAME_LENGTH; i>=0; i--) {
+	for  (int i=MAX_NAME_LENGTH;i>=0;i--) {
 		if (name_[i]==' ') {
-			name_[i]=0;
+			name_[i]=0 ;
 		} else {
-			break;
+			break ;
 		}
 	}
-	std::string name = "lgpt_";
-	name += name_;
-	return name;
+	std::string name="lgpt_" ;
+	name+=name_ ;
+	return name ;
 }

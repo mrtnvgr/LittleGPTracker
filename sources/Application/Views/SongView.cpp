@@ -914,13 +914,8 @@ void SongView::DrawView() {
 
     os << ": ";
 
-    const char *hideLGPTPrefixValue = Config::GetInstance()->GetValue("HIDELGPTPREFIX");
-	bool hideLGPTPrefix = hideLGPTPrefixValue && (!strcmp(hideLGPTPrefixValue, "YES"));
-
-    if (hideLGPTPrefix && (songname_.substr(0, 5) == "lgpt_")) {
+    if (songname_.substr(0, 5) == "lgpt_") {
         os << songname_.substr(5);
-    } else {
-        os << songname_;
     }
 
     std::string buffer(os.str());
