@@ -25,17 +25,14 @@ void NewProjectDialog::DrawView() {
 
 	// Draw string
 
-    int len = MAX_NAME_LENGTH + 5;
-    int x = (DIALOG_WIDTH-len)/2;
-	DrawString(x,2,"lgpt_",props);
-	x += 5;
+    int x = 0;
 
 	char buffer[2] ;
 	buffer[1]=0 ;
 	for (int i=0;i<MAX_NAME_LENGTH;i++) {
 		props.invert_=((i==currentChar_)&&(selected_==0)) ;
 		buffer[0]=name_[i] ;
-		DrawString(x+5+i,2,buffer,props) ;
+		DrawString(x+i,2,buffer,props) ;
 	}
 
 	// Draw buttons
