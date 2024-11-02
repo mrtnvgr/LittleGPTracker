@@ -319,16 +319,6 @@ useful for debugging crashes or making a mapping.xml for your usb pad:
 </CONFIG>
 ```
 
-## Interface tweaks
-
-- **HIDELGPTPREFIX**: Allows to hide `lgpt_` prefixes from project creation dialog and song screen.
-
-```
-<CONFIG>
-  <HIDELGPTPREFIX value="YES"/>
-</CONFIG>
-```
-
 ----------
 
 # `mapping.xml` Guide

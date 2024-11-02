@@ -262,13 +262,3 @@ Get piggy dumping a log on the terminal or to a .log file, useful for debugging 
     <DUMPEVENT value='YES'/>
 </CONFIG>
 ```
-
-## Interface tweaks
-
-- **HIDELGPTPREFIX**: Allows to hide `lgpt_` prefixes from project creation dialog and song screen.
-
-```
-<CONFIG>
-  <HIDELGPTPREFIX value="YES"/>
-</CONFIG>
-```
